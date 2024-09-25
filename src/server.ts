@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv'
 import connectDB from './config/db';
-import proyectRoutes from './routes/proyectRoutes';
+import projectRoutes from './routes/projectRoutes';
 
 dotenv.config();
 
@@ -9,7 +9,9 @@ connectDB();
 
 const app = express();
 
+app.use(express.json());
+
 //Routes
-app.use('/api/proyects', proyectRoutes);
+app.use('/api/projects', projectRoutes);
 
 export default app; 

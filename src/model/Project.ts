@@ -1,13 +1,13 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-type ProyectType = Document & {
-     proyectName : string,
+type ProjectType = Document & {
+     projectName : string,
      clientName  : string,
      description : string
 }
 
-const ProyectSchema : Schema = new Schema({
-    proyectName: {
+const ProjectSchema : Schema = new Schema({
+    projectName: {
         type : String,
         required : true,
         trim : true
@@ -26,7 +26,7 @@ const ProyectSchema : Schema = new Schema({
     }
 });
 
-const Proyect = mongoose.model<ProyectType>('Proyect', ProyectSchema);
+const Project = mongoose.model<ProjectType>('Project', ProjectSchema);
 
-export default Proyect;
-export { ProyectType };
+export default Project;
+export { ProjectType };
