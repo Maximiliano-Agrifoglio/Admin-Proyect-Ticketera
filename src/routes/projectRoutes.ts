@@ -3,7 +3,7 @@ import ProjectController from "../controllers/projectController";
 import TaskController from "../controllers/taskController";
 import { body, param } from 'express-validator';
 import handleImputsErrors from "../middleware/validation";
-//import validateProject from "../middleware/project";
+import validateProject from "../middleware/project";
 
 const router = Router();
 
@@ -43,6 +43,11 @@ router.put('/:id',
 
     // Ruotes for tasks.
     router.post('/:projectId/tasks',
-       
-       TaskController.createTask);
+       validateProject,
+         body('name')
+        .notEmpty().withMessage('El Nombre de la Tarea es Obligatoria'),
+         body('description')
+        .notEmpty().withMessage('La Descripción de la Tarea es obligatoria'),
+ handleImputsErrors,
+ TaskController.createTask);
 export default router;
