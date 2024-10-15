@@ -31,10 +31,12 @@ import colors from 'colors'
                 if (!project) {
                     const error = new Error('Proyecto no encontrado');
                     return res.status(404).json({error: error.message});
-                }
-                res.json(project);
+                }  
+                const populatedProject = await Project.populate(project, { path: 'tasks' });
+                res.json(populatedProject);
             } catch (error) {
-                console.log(colors.red(error));
+                console.log(`Error: ${colors.red(error)}`);
+                res.status(500).json({error: 'Hubo un Error'});
             }
         }
 
@@ -70,3 +72,5 @@ import colors from 'colors'
     };
 
 export default ProjectController;
+
+  

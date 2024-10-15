@@ -50,4 +50,9 @@ router.put('/:id',
         .notEmpty().withMessage('La Descripción de la Tarea es obligatoria'),
  handleImputsErrors,
  TaskController.createTask);
+
+ router.get('/:projectId/tasks',
+      validateProject,
+      TaskController.getProjectTasks
+ );
 export default router;

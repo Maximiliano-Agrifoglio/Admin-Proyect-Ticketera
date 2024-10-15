@@ -13,7 +13,19 @@ import colors from 'colors'
                 await Promise.allSettled([task.save(),req.project.save()]);
                 res.json(task);
             } catch (error) {
-                 console.log(`exepción en createTask ${colors.red(error)}`);                   
+                 console.log(`exepción en createTask ${colors.red(error)}`);
+                 console.log(res.status(500).json({error: 'Hubo un Error'}));
+            }
+        }
+
+        static getProjectTasks = async (req : Request, res : Response) => {
+            
+            try {            
+                const tasks = await Task.find({project: req.project.id}).populate('project');
+                res.json(tasks);
+            } catch (error) {
+                 console.log(`exepción en getProjectTasks ${colors.red(error)}`);
+                 res.status(500).json({error: 'Hubo un Error'});                   
             }
         }
     };
