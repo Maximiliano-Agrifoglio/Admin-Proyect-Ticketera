@@ -10,7 +10,7 @@ import colors from 'colors'
                 await project.save()
                 res.json({ msg:'Proyecto Creado correctamente!'});
             } catch (error) {
-                 console.log(colors.red(error));                   
+                console.log(`Error: ${colors.red(error)}`);                   
             }
            
         }
@@ -20,7 +20,7 @@ import colors from 'colors'
                 const projects = await Project.find({});
                 res.json(projects);
             } catch (error) {
-                console.log(colors.red(error));
+                console.log(`Error: ${colors.red(error)}`);
             }
         }
 
@@ -51,7 +51,7 @@ import colors from 'colors'
                 await project.save();
                 res.json(project);
             } catch (error) {
-                console.log(colors.red(error));
+                console.log(`Error: ${colors.red(error)}`);
             }
         }
 
@@ -66,7 +66,7 @@ import colors from 'colors'
                 await project.deleteOne();
                 res.json({msg:'Proyecto eliminado correctamente'});
             } catch (error) {
-                console.log(colors.red(error));
+                console.log(`Error: ${colors.red(error)}`);
             }
         }
     };
