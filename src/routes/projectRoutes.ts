@@ -77,5 +77,11 @@ router.put('/:id',
        handleImputsErrors,
        TaskController.deleteTaskById
 );
+ router.patch('/:projectId/tasks/:taskId/status',
+       param('taskId').isMongoId().withMessage('ID no valido'),
+       body('status').notEmpty().withMessage('El estado es obligatorio'),
+       handleImputsErrors,
+       TaskController.updateStatus
+);
 
 export default router;
