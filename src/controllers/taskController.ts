@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import Task from "../model/Task";
 import colors from 'colors'
-import { trusted } from "mongoose";
 
      class TaskController {
 
@@ -31,19 +30,13 @@ import { trusted } from "mongoose";
         }
 
         static getTaskById = async (req : Request, res : Response) => {
-            
+
             try {            
-                const { taskId } = req.params;
-                const task = await Task.findById(taskId);
-                if (!task) {
-                    const error = new Error('Tarea no encontrada');
-                    return res.status(404).json({error: error.message});
-                } 
-                if (task.project.toString() !== req.project.id) {
+                if (req.task.project.toString() !== req.project.id) {
                     const error = new Error('Accion no valida');
                     return res.status(400).json({error: error.message});
                 }    
-                res.json(task);
+                res.json(req.task);
             } catch (error) {
                  console.log(`exepción en getTaskByID => ${colors.red(error)}`);
                  res.status(500).json({error: 'Hubo un Error'});                   
@@ -52,20 +45,15 @@ import { trusted } from "mongoose";
         static updateTaskById = async (req : Request, res : Response) => {
             
             try {            
-                const { taskId } = req.params;
-                const task = await Task.findById(taskId);
-                if (!task) {
-                    const error = new Error('Tarea no encontrada');
-                    return res.status(404).json({error: error.message});
-                } 
-                if (task.project.toString() !== req.project.id) {
+               
+                if (req.task.project.toString() !== req.project.id) {
                     const error = new Error('Accion no valida');
                     return res.status(400).json({error: error.message});
                 }    
-                task.name = req.body.name
-                task.description = req.body.description
-                await task.save();
-                res.json(task);
+                req.task.name = req.body.name
+                req.task.description = req.body.description
+                await req.task.save();
+                res.json(req.task);
             } catch (error) {
                  console.log(`exepción en updateTaskByID => ${colors.red(error)}`);
                  res.status(500).json({error: 'Hubo un Error'});                   
@@ -75,14 +63,9 @@ import { trusted } from "mongoose";
         static deleteTaskById = async (req : Request, res : Response) => {
             
             try {            
-                const { taskId } = req.params;
-                const task = await Task.findById(taskId);
-                if (!task) {
-                    const error = new Error('Tarea no encontrada');
-                    return res.status(404).json({error: error.message});
-                } 
-                req.project.tasks = req.project.tasks.filter( task => task.toString() !== taskId )
-                await Promise.allSettled([task.deleteOne(), req.project.save()]);
+              
+                req.project.tasks = req.project.tasks.filter( task => task.toString() !== req.task.id )
+                await Promise.allSettled([req.task.deleteOne(), req.project.save()]);
                 res.json({message: 'Tarea eliminada correctamente'});
             } catch (error) {
                  console.log(`exepción en DeleteTaskByID => ${colors.red(error)}`);
