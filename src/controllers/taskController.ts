@@ -31,11 +31,7 @@ import colors from 'colors'
 
         static getTaskById = async (req : Request, res : Response) => {
 
-            try {            
-                if (req.task.project.toString() !== req.project.id) {
-                    const error = new Error('Accion no valida');
-                    return res.status(400).json({error: error.message});
-                }    
+            try {               
                 res.json(req.task);
             } catch (error) {
                  console.log(`exepción en getTaskByID => ${colors.red(error)}`);
@@ -44,12 +40,7 @@ import colors from 'colors'
         }
         static updateTaskById = async (req : Request, res : Response) => {
             
-            try {            
-               
-                if (req.task.project.toString() !== req.project.id) {
-                    const error = new Error('Accion no valida');
-                    return res.status(400).json({error: error.message});
-                }    
+            try {               
                 req.task.name = req.body.name
                 req.task.description = req.body.description
                 await req.task.save();
@@ -63,8 +54,7 @@ import colors from 'colors'
         static deleteTaskById = async (req : Request, res : Response) => {
             
             try {            
-              
-                req.project.tasks = req.project.tasks.filter( task => task.toString() !== req.task.id )
+                req.project.tasks = req.project.tasks.filter( task => task.toString() !== req.task.id.toString())
                 await Promise.allSettled([req.task.deleteOne(), req.project.save()]);
                 res.json({message: 'Tarea eliminada correctamente'});
             } catch (error) {
@@ -76,15 +66,9 @@ import colors from 'colors'
         static updateStatus = async (req : Request, res : Response) => {
             
             try {            
-                const { taskId } = req.params;
-                const task = await Task.findById(taskId);
-                if (!task) {
-                    const error = new Error('Tarea no encontrada');
-                    return res.status(404).json({error: error.message});
-                } 
                 const { status } = req.body;
-                task.status = status
-                await task.save();
+                req.task.status = status
+                await req.task.save();
                 res.json({message: 'Estado modificado correctamente'});
             } catch (error) {
                  console.log(`exepción en updateStatus => ${colors.red(error)}`);

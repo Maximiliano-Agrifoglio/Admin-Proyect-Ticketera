@@ -22,7 +22,7 @@ declare global {
         req.project = project;
         next();
     } catch (error) {
-        console.log(`exepción en validarteProject ${colors.red(error)}`);
+        console.log(`exepción en validateProject ${colors.red(error)}`);
         res.status(500).json({error: 'Hubo un error'});              
     }
 }

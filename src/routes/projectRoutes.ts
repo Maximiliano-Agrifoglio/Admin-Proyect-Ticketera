@@ -5,6 +5,7 @@ import { body, param } from 'express-validator';
 import handleImputsErrors from "../middleware/validation";
 import validateProject from "../middleware/project";
 import validateTask from "../middleware/task";
+import { taskBelongToProject } from "../middleware/task";
 
 const router = Router();
 
@@ -45,6 +46,7 @@ router.put('/:id',
     // Ruotes for tasks.
     router.param('projectId', validateProject);
     router.param('taskId', validateTask);
+    router.param('taskId',taskBelongToProject);
 
     router.post('/:projectId/tasks',
          body('name')
