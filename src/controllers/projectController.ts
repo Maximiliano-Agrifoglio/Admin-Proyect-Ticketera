@@ -52,7 +52,7 @@ import colors from 'colors'
                 project.projectName = req.body.projectName;
                 project.description = req.body.description;
                 await project.save();
-                res.json(project);
+                res.send('Proyecto Editado');
             } catch (error) {
                 console.log(`Error: ${colors.red(error)}`);
             }
