@@ -67,7 +67,7 @@ import colors from 'colors'
                     return res.status(404).json({error: error.message});
                 }
                 await project.deleteOne();
-                res.json({msg:'Proyecto eliminado correctamente'});
+                return res.send('Proyecto eliminado correctamente');
             } catch (error) {
                 console.log(`Error: ${colors.red(error)}`);
             }
