@@ -11,7 +11,7 @@ import colors from 'colors'
                 task.project = req.project.id;
                 req.project.tasks.push(task.id);
                 await Promise.allSettled([task.save(),req.project.save()]);
-                res.json(task);
+                res.send('Tarea creada correctamente');
             } catch (error) {
                  console.log(`exepción en createTask => ${colors.red(error)}`);
                  console.log(res.status(500).json({error: 'Hubo un Error'}));
