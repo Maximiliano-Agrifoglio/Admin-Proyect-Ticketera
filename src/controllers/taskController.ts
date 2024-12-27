@@ -44,7 +44,7 @@ import colors from 'colors'
                 req.task.name = req.body.name
                 req.task.description = req.body.description
                 await req.task.save();
-                res.json(req.task);
+                res.send('Tarea Actualizada correctamente');
             } catch (error) {
                  console.log(`exepción en updateTaskByID => ${colors.red(error)}`);
                  res.status(500).json({error: 'Hubo un Error'});                   
@@ -56,7 +56,7 @@ import colors from 'colors'
             try {            
                 req.project.tasks = req.project.tasks.filter( task => task.toString() !== req.task.id.toString())
                 await Promise.allSettled([req.task.deleteOne(), req.project.save()]);
-                res.json({message: 'Tarea eliminada correctamente'});
+                res.send('Tarea eliminada correctamente');
             } catch (error) {
                  console.log(`exepción en DeleteTaskByID => ${colors.red(error)}`);
                  res.status(500).json({error: 'Hubo un Error'});                   
@@ -69,7 +69,7 @@ import colors from 'colors'
                 const { status } = req.body;
                 req.task.status = status
                 await req.task.save();
-                res.json({message: 'Estado modificado correctamente'});
+                res.send('Estado modificado correctamente');
             } catch (error) {
                  console.log(`exepción en updateStatus => ${colors.red(error)}`);
                  res.status(500).json({error: 'Hubo un Error'});                   
