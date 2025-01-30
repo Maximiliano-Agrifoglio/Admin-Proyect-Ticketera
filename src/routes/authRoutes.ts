@@ -29,4 +29,11 @@ router.post('/confirm-account',
           AuthController.confirmAccount
 );
 
+router.post('/login',
+     body('email')
+          .isEmail().withMessage('E-mail no válido'),
+          handleImputsErrors,
+          AuthController.login
+);
+
 export default router;
